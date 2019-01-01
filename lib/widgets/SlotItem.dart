@@ -9,17 +9,24 @@ class SlotItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Expanded(
-        flex: 1,
-        child: Stack(
-          children: <Widget>[
-            Image.asset('assets/img/$assetName.png'),
-            Visibility(
-              child: Image.asset('assets/img/${assetName}_f.png'),
-              visible: this.index == this.currentIndex,
-            ),
-          ],
+    bool isFocus = this.index == this.currentIndex;
+    return Expanded(
+      flex: 1,
+      child: Container(
+        decoration: BoxDecoration(
+          color: isFocus ?  Color(0xffe74c3c) : null,
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Stack(
+            children: <Widget>[
+              Image.asset('assets/img/$assetName.png'),
+              Visibility(
+                child: Image.asset('assets/img/${assetName}_f.png'),
+                visible: isFocus,
+              ),
+            ],
+          ),
         ),
       ),
     );

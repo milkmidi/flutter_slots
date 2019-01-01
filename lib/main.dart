@@ -22,8 +22,9 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
-  int _currentIndex = 0;
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+  int _currentIndex = -1;
   AnimationController controller;
   Animation<int> animation;
 
@@ -35,8 +36,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   }
 
   void _startSlotsGame() {
+    print('start');
     int duration = Random().nextInt(3) + 5;
-    int end = _currentIndex + 50 + Random().nextInt(50) - 25;
+    int end = _currentIndex + 100 + Random().nextInt(60) - 30;
     controller.duration = Duration(seconds: duration);
     animation = IntTween(
       begin: _currentIndex,
@@ -48,23 +50,28 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       ..addListener(() {
         print(animation.value);
         setState(() {
-          _currentIndex = animation.value % 7;
+          _currentIndex = animation.value % 20;
         });
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
-          // controller.reverse();
-          // controller.reset();
-          controller.resync(this);
+          print(status);
+          print(_currentIndex);
         }
       });
-    controller.forward();
+    controller.forward(from: 0.0);
   }
+
+  Widget _createSlotItem(String assetsName, int index) => SlotItem(
+        assetsName,
+        index: index,
+        currentIndex: _currentIndex,
+      );
 
   @override
   void dispose() {
+    controller?.dispose();
     super.dispose();
-    controller.dispose();
   }
 
   @override
@@ -74,51 +81,66 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         child: Column(
           children: <Widget>[
             Row(
-              // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SlotItem(
-                  'image0',
-                  index: 0,
-                  currentIndex: _currentIndex,
-                ),
-                SlotItem(
-                  'image1',
-                  index: 1,
-                  currentIndex: _currentIndex,
-                ),
-                SlotItem(
-                  'image2',
-                  index: 2,
-                  currentIndex: _currentIndex,
-                ),
-                SlotItem(
-                  'image3',
-                  index: 3,
-                  currentIndex: _currentIndex,
-                ),
-                SlotItem(
-                  'image4',
-                  index: 4,
-                  currentIndex: _currentIndex,
-                ),
+                _createSlotItem('image0', 0),
+                _createSlotItem('image1', 1),
+                _createSlotItem('image2', 2),
+                _createSlotItem('image3', 3),
+                _createSlotItem('image4', 4),
               ],
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                SlotItem(
-                  'image5',
-                  index: 5,
-                  currentIndex: _currentIndex,
-                ),
+                _createSlotItem('image7', 19),
                 Spacer(),
                 Spacer(),
                 Spacer(),
-                SlotItem(
-                  'image6',
-                  index: 6,
-                  currentIndex: _currentIndex,
-                ),
+                _createSlotItem('image5', 5),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                _createSlotItem('image6', 18),
+                Spacer(),
+                Spacer(),
+                Spacer(),
+                _createSlotItem('image6', 6),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                _createSlotItem('one_more', 17),
+                Spacer(),
+                Spacer(),
+                Spacer(),
+                _createSlotItem('one_more', 7),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                _createSlotItem('image5', 16),
+                Spacer(),
+                Spacer(),
+                Spacer(),
+                _createSlotItem('image7', 8),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                _createSlotItem('image4', 15),
+                Spacer(),
+                Spacer(),
+                Spacer(),
+                _createSlotItem('image8', 9),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                _createSlotItem('image3', 14),
+                _createSlotItem('image2', 13),
+                _createSlotItem('image1', 12),
+                _createSlotItem('image0', 11),
+                _createSlotItem('image9', 10),
               ],
             ),
           ],
